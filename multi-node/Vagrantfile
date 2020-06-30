@@ -1,0 +1,113 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+   
+  
+  # Box base
+  # https://www.vagrantup.com/docs/boxes
+  config.vm.box = 'bento/ubuntu-20.04'
+  
+    
+
+    # Disable automatic box update checking. If you disable this, then
+    # boxes will only be checked for updates when the user runs
+    # `vagrant box outdated`. This is not recommended.
+    #config.vm.box_check_update = true
+    
+    config.vm.boot_timeout = 240
+
+    # If true, then any SSH connections made will enable agent forwarding.
+    # Default value: false
+    #config.ssh.forward_agent = true
+
+    # Share an additional folder to the guest VM. The first argument is
+    # the path on the host to the actual folder. The second argument is
+    # the path on the guest to mount the folder. And the optional third
+    # argument is a set of non-required options.
+    # config.vm.synced_folder "../data", "/vagrant_data"
+
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    #############################################
+    # Criação ambiente 
+    #############################################
+
+    # Definição dos nodos
+    nodes = [
+        { name: 'nodo-01', nodo_ip: '172.16.0.10', cpus: '1', memory: '512' },
+
+        { name: 'nodo-02', nodo_ip: '172.16.0.11', cpus: '1', memory: '512' },
+    ]
+
+    #
+    # Configuração dos Nodos
+    #
+
+    nodes.each do |node|
+        
+      # Aplicação da configurações para cada nodo
+        config.vm.define node[:name], primary: true do |node_config|
+            
+          # Hostname
+          node_config.vm.hostname = node[:name]
+
+          # Endereço IP
+          node_config.vm.network :private_network, ip: node[:nodo_ip], netmask: '255.255.255.0'
+          
+          # Fake /home para cada nodo
+          node_config.vm.synced_folder "./#{node[:name]}", "/home/vagrant/shared", create:true
+
+            #
+            # Configurações do hipervisor para cada máquina virtual
+            #
+            node_config.vm.provider :virtualbox do |vbox|
+              
+              # Nome da VM no Virtualbox
+               vbox.name = node[:name]
+
+              # Memory - default 1GB
+              vbox.memory = node[:memory]
+
+              # CPU Number - default: 1
+              vbox.cpus = node[:cpus]
+              
+              # Ativa a GUI do Virtualbox
+              vbox.gui = true
+            end
+        end
+    end
+
+
+  # 
+  # Configurações avançadas
+  # 
+
+  # Provisionamento
+  config.vm.provision "shell", path: "./provision.sh"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    # Configure cached packages to be shared between instances of the same base box.
+    # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+    config.cache.scope = :box
+    #  config.cache.scope = :machine
+    #  config.cache.enable :apt
+    #  config.cache.enable :apt_lists
+
+    # OPTIONAL: If you are using VirtualBox, you might want to use that to enable
+    # NFS for shared folders. This is also very useful for vagrant-libvirt if you
+    # want bi-directional sync
+    config.cache.synced_folder_opts = {
+         type: :nfs,
+         # The nolock option can be useful for an NFSv3 client that wants to avoid the
+         # NLM sideband protocol. Without this option, apt-get might hang if it tries
+         # to lock files needed for /var/cache/* operations. All of this can be avoided
+         # by using NFSv4 everywhere. Please note that the tcp option is not the default.
+         mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
+    }
+    # For more information please check http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
+  end
+end
