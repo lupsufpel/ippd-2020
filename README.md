@@ -4,7 +4,7 @@ O propósito desse repositório é fornecer uma ambiente virtualizado para estud
 
 ## Descrição do Ambiente
 
-Esse repositório disponibiliza dois ambiente para uso: single-node (com uma máquina virtual) e ou multi-node ( com 2 ou mais máquinas virtuais). No ambiente multi-node, por exemplo, pode ser usado nas atividades que envolvam o uso da tecnologia `OpenMPI`
+Esse repositório disponibiliza dois ambientes para uso: single-node (com uma máquina virtual) e ou multi-node ( com 2 ou mais máquinas virtuais). No ambiente multi-node, por exemplo, pode ser usado nas atividades que envolvam o uso da tecnologia `OpenMPI`
 
 ## Pré requisitos
 
