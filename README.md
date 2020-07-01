@@ -1,6 +1,10 @@
-# Howto
+# IPPD 2020
 
 O propósito desse repositório é fornecer uma ambiente virtualizado para estudo/teste de configurações e ferramentas que possam ser usadas nas cadeira de IPPD.
+
+## Descrição do Ambiente
+
+Esse repositório disponibiliza dois ambiente para uso: single-node (com uma máquina virtual) e ou multi-node ( com 2 ou mais máquinas virtuais). No ambiente multi-node, por exemplo, pode ser usado nas atividades que envolvam o uso da tecnologia `OpenMPI`
 
 ## Pré requisitos
 
@@ -17,9 +21,24 @@ Para maioria das situações, basta baixar a versão mais atual dos programas e 
 
 Estes comandos precisam ser executados no diretório onde se encontra o arquivo `Vagrantfile`.
 
+    $ cd single-node
+    
+  ou
+  
+    $ cd multi-node
+
 ### Iniciando o ambiente
 
     $ vagrant up
+    
+Esse repositório possui scripts que permitem preparar a máquina virtual, deixando-a pronta para uso. Para isso, basta adicionar a opção `--provision` ao comando  ` vagrant up`:
+
+    $ vagrant up --provision
+    
+ Ou executar o comando `vagrant provision` após o comando `vagrant up`
+    
+    $ vagrant up
+    $ vagrant provision
 
 ### Acessando a máquina virtual 
 
@@ -38,11 +57,13 @@ $ vagrant rdp
 ```
 #### Acessando diretamenta a interface do Virtualbox
 
-Ativando  a diretiva no `Vagrantfile`
+Ativando  a diretiva no `Vagrantfile` (já está ativado).
 
 ```
 vbox.gui = true
 ```
+
+
 
 ### Destruindo VM
 
@@ -64,9 +85,27 @@ $ vagrant halt
 
 ## Usuários e senhas
 
+O usuário padrão das máquinas virtuais é `vagrant` e é um usuário do grupo `sudo`.  
+
 | Usuário 	| Senha   	|
 |---------	|---------	|
 | vagrant 	| vagrant 	|
+
+
+## Compartilhamento
+Este ambiente também está configurado para que as máquinas virtuais compartilhem com a máquina hospedeira. Isso permite que os arquivos possam ser acessados e manipulados por ambas.
+
+| Hospedeiro 	| Máquina virtual |
+|---------	|---------	|
+| ./vm-home | /home/vagrant/shared" |
+
+o mesmo ocorre no ambiente multi-nodo:
+
+| Hospedeiro 	| Máquina virtual |
+|---------	|---------	|
+| ./nodo-01 | /home/vagrant/shared" |
+| ./nodo-02 | /home/vagrant/shared" |
+
 
 
 ## Referências
