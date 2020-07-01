@@ -31,7 +31,7 @@ Estes comandos precisam ser executados no diretório onde se encontra o arquivo 
 
     $ vagrant up
     
-Esse repositório possui scripts que permitem preparar a máquina virtual, deixando-a pronta para uso. Para isso, basta adicionar a opção `--provision` ao comando  ` vagrant up`:
+Esse repositório possui scripts (`provision.sh`) que permitem preparar a máquina virtual, deixando-a pronta para uso. Para isso, basta adicionar a opção `--provision` ao comando  ` vagrant up`:
 
     $ vagrant up --provision
     
