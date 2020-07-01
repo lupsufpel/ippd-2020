@@ -1,6 +1,6 @@
 # IPPD 2020
 
-O propósito desse repositório é fornecer uma ambiente virtualizado para estudo/teste de configurações e ferramentas que possam ser usadas nas cadeira de IPPD.
+O propósito desse repositório é fornecer uma ambiente virtualizado para estudo/teste de configurações e ferramentas que possam ser usadas na cadeira de IPPD.
 
 ## Descrição do Ambiente
 
